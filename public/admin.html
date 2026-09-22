@@ -16,27 +16,28 @@
 </head>
 <body>
   <h1>Şaka Kontrol Merkezi 😈</h1>
+  <p style="color: #aaa; margin-bottom: 20px;">Tüm butonlar Aç/Kapat mantığıyla çalışır. Kapatmak için tekrar basın.</p>
   
   <div class="grid">
     <div class="baslik-kategori">1. İçerik Değiştirme</div>
-    <button onclick="komutGonder('yazi_degistir')">Metni Troll'e Çevir</button>
-    <button onclick="komutGonder('matrix_mod')">Matrix Hack Modu</button>
+    <button onclick="komutGonder('yazi_degistir')">Metni Troll Yap (Aç/Kapat)</button>
+    <button onclick="komutGonder('matrix_mod')">Matrix Modu (Aç/Kapat)</button>
     
     <div class="baslik-kategori">2. Görme İşkencesi (Troll)</div>
-    <button onclick="komutGonder('titret')">Sayfayı Titret</button>
-    <button onclick="komutGonder('bulanik')">Bulanıklaştır (Körlük)</button>
-    <button onclick="komutGonder('ters_cevir')">Ayna Modu (Yatay)</button>
-    <button onclick="komutGonder('ters_duz_yap')">Tepe Taklak Yap</button>
+    <button onclick="komutGonder('titret')">Sayfayı Titret (Aç/Kapat)</button>
+    <button onclick="komutGonder('bulanik')">Bulanıklaştır (Aç/Kapat)</button>
+    <button onclick="komutGonder('ters_cevir')">Ayna Modu (Aç/Kapat)</button>
+    <button onclick="komutGonder('ters_duz_yap')">Tepe Taklak Yap (Aç/Kapat)</button>
     
     <div class="baslik-kategori">3. Renk ve Font İşkencesi</div>
-    <button onclick="komutGonder('comic_sans')">Pembe Comic Sans</button>
-    <button onclick="komutGonder('karanlik_mod')">Karanlık Tema Yap</button>
+    <button onclick="komutGonder('comic_sans')">Pembe Comic Sans (Aç/Kapat)</button>
+    <button onclick="komutGonder('karanlik_mod')">Karanlık Tema (Aç/Kapat)</button>
 
     <div class="baslik-kategori">4. Büyük Vuruş</div>
-    <button onclick="komutGonder('uyari_goster')" class="kirmizi" style="grid-column: span 2;">Kritik Hata Pop-up'ı Fırlat!</button>
+    <button onclick="komutGonder('uyari_goster')" class="kirmizi" style="grid-column: span 2;">Kritik Hata Pop-up (Aç/Kapat)</button>
 
     <div class="baslik-kategori">Kurtarma (Acil Durum)</div>
-    <button onclick="komutGonder('her_seyi_duzelt')" class="yesil">Panik Butonu (Normale Dön)</button>
+    <button onclick="komutGonder('her_seyi_duzelt')" class="yesil">Panik Butonu (Her Şeyi Sıfırla)</button>
   </div>
 
   <script src="/socket.io/socket.io.js"></script>

@@ -145,45 +145,73 @@
   <script src="/socket.io/socket.io.js"></script>
   <script>
     const socket = io();
+    
+    // Orijinal içerikleri saklıyoruz ki tek tıkla geri alabilesiniz
+    let orjinalP2 = "";
+    let orjinalIcerik = "";
+    let yaziTrollMu = false;
+    let matrixAcikMi = false;
+
+    window.onload = () => {
+      orjinalP2 = document.getElementById('p2').innerHTML;
+      orjinalIcerik = document.getElementById('icerik').innerHTML;
+    };
 
     socket.on('saka_calistir', (komut) => {
       const body = document.body;
       
-      if(komut === 'titret') body.classList.add('titre');
+      // Toggle (Aç/Kapat) Mantığı
+      if(komut === 'titret') body.classList.toggle('titre');
+      if(komut === 'karanlik_mod') body.classList.toggle('karanlik');
+      if(komut === 'ters_cevir') body.classList.toggle('ters_cevir');
+      if(komut === 'ters_duz_yap') body.classList.toggle('ters_cevir_y');
+      if(komut === 'bulanik') body.classList.toggle('bulanik');
+      if(komut === 'comic_sans') body.classList.toggle('comic_sans');
       
       if(komut === 'yazi_degistir') {
         const target = document.getElementById('p2');
-        target.innerHTML = "<b>ŞU AN BU YAZIYI OKUMAN UMURUMDA DEĞİL. SENA'NIN SANA İHTİYACI VAR. BU MAKALEYİ OKUMAYI BIRAK VE HEMEN ONA GÜZEL BİR ŞEYLER SÖYLE!</b>";
-        target.style.color = "#e74c3c";
-        target.style.fontSize = "26px";
-        target.style.fontFamily = "sans-serif";
+        if(!yaziTrollMu) {
+          target.innerHTML = "<b>ŞU AN BU YAZIYI OKUMAN UMURUMDA DEĞİL. SENA'NIN SANA İHTİYACI VAR. BU MAKALEYİ OKUMAYI BIRAK VE HEMEN ONA GÜZEL BİR ŞEYLER SÖYLE!</b>";
+          target.style.color = "#e74c3c";
+          target.style.fontSize = "26px";
+          target.style.fontFamily = "sans-serif";
+          yaziTrollMu = true;
+        } else {
+          target.innerHTML = orjinalP2;
+          target.style.color = "";
+          target.style.fontSize = "";
+          target.style.fontFamily = "";
+          yaziTrollMu = false;
+        }
       }
       
-      if(komut === 'karanlik_mod') body.classList.add('karanlik');
-      
-      if(komut === 'ters_cevir') body.classList.add('ters_cevir');
-      if(komut === 'ters_duz_yap') body.classList.add('ters_cevir_y');
-      
-      if(komut === 'bulanik') body.classList.add('bulanik');
-      
-      if(komut === 'comic_sans') body.classList.add('comic_sans');
-      
       if(komut === 'matrix_mod') {
-        body.classList.add('matrix_mod');
-        document.getElementById('icerik').innerHTML = "<main class='article-container'><h1>SİSTEME SIZILDI...</h1><p>TÜM VERİLERİNİZ SENA'NIN SUNUCULARINA AKTARILIYOR...</p><p>10... 9... 8...</p></main>";
+        if(!matrixAcikMi) {
+          body.classList.add('matrix_mod');
+          document.getElementById('icerik').innerHTML = "<main class='article-container'><h1>SİSTEME SIZILDI...</h1><p>TÜM VERİLERİNİZ SENA'NIN SUNUCULARINA AKTARILIYOR...</p><p>10... 9... 8...</p></main>";
+          matrixAcikMi = true;
+        } else {
+          body.classList.remove('matrix_mod');
+          document.getElementById('icerik').innerHTML = orjinalIcerik;
+          matrixAcikMi = false;
+        }
       }
       
       if(komut === 'uyari_goster') {
-        document.getElementById('fakeModal').style.display = 'block';
+        const modal = document.getElementById('fakeModal');
+        modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
       }
       
+      // Panik Butonu
       if(komut === 'her_seyi_duzelt') {
         body.className = ''; 
         document.getElementById('fakeModal').style.display = 'none';
-        
-        if(document.getElementById('icerik').innerHTML.includes('SİSTEME SIZILDI')) {
-           location.reload(); 
-        }
+        document.getElementById('p2').innerHTML = orjinalP2;
+        document.getElementById('p2').style.color = "";
+        document.getElementById('p2').style.fontSize = "";
+        document.getElementById('icerik').innerHTML = orjinalIcerik;
+        yaziTrollMu = false;
+        matrixAcikMi = false;
       }
     });
   </script>
