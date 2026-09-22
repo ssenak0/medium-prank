@@ -3,54 +3,142 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yazılım Mühendisliğinde İlk Yılım - Medium</title>
+  <title>Yazılım Mühendisliğinde İlk Yılım ve Karşılaştığım Zorluklar - Medium</title>
   <style>
-    body { font-family: 'Georgia', serif; max-width: 700px; margin: 0 auto; padding: 20px; color: #242424; transition: all 0.5s ease; }
-    h1 { font-family: 'Helvetica Neue', sans-serif; font-size: 36px; margin-bottom: 10px; }
-    p { font-size: 20px; line-height: 1.5; margin-bottom: 25px; }
-    .author-date { color: #6b6b6b; font-family: sans-serif; margin-bottom: 30px; font-size: 14px; }
-    
-    /* Şaka Efektleri */
-    .titre { animation: tilt-shaking 0.15s infinite; }
-    @keyframes tilt-shaking {
-      0% { transform: rotate(0deg); }
-      25% { transform: rotate(2deg); }
-      50% { transform: rotate(0deg); }
-      75% { transform: rotate(-2deg); }
-      100% { transform: rotate(0deg); }
+    /* Reset & Base */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+      color: #242424; 
+      line-height: 1.5;
+      background-color: #fff;
+      transition: all 0.5s ease;
+      overflow-x: hidden;
     }
+    
+    /* Navbar */
+    .navbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 24px; border-bottom: 1px solid #f2f2f2;
+      position: sticky; top: 0; background: rgba(255, 255, 255, 0.95); z-index: 100;
+    }
+    .navbar .logo { font-family: serif; font-size: 28px; font-weight: 900; letter-spacing: -1.5px; }
+    .navbar .nav-links { display: flex; align-items: center; gap: 20px; font-size: 14px; color: #6b6b6b; }
+    .nav-links span { cursor: pointer; }
+    .btn-signup { background: #1a8917; color: white; padding: 8px 16px; border-radius: 99em; text-decoration: none; }
+
+    /* Article Container */
+    .article-container { max-width: 680px; margin: 40px auto; padding: 0 20px; }
+    
+    /* Header */
+    h1 { font-size: 42px; font-weight: 700; line-height: 1.2; letter-spacing: -0.011em; margin-bottom: 30px; color: #242424; }
+    
+    /* Author Block */
+    .author-block { display: flex; align-items: center; margin-bottom: 32px; gap: 16px; }
+    .avatar { width: 48px; height: 48px; border-radius: 50%; background-color: #f2f2f2; object-fit: cover; }
+    .author-info { display: flex; flex-direction: column; }
+    .author-name-row { display: flex; align-items: center; gap: 8px; }
+    .author-name { font-size: 16px; font-weight: 500; }
+    .follow-btn { color: #1a8917; font-size: 16px; cursor: pointer; }
+    .follow-btn::before { content: "·"; margin-right: 8px; color: #6b6b6b; }
+    .meta-data { font-size: 14px; color: #6b6b6b; margin-top: 2px; }
+    
+    /* Content */
+    .content-img { width: 100%; margin: 32px 0; border-radius: 4px; }
+    .content p { 
+      font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif; 
+      font-size: 20px; 
+      line-height: 32px; 
+      margin-bottom: 30px; 
+      color: #242424;
+      letter-spacing: -0.003em;
+    }
+    
+    /* Footer Actions */
+    .footer-actions {
+      display: flex; border-top: 1px solid #f2f2f2; border-bottom: 1px solid #f2f2f2;
+      padding: 12px 0; margin-top: 40px; margin-bottom: 60px; color: #6b6b6b;
+    }
+    .action-item { display: flex; align-items: center; gap: 8px; margin-right: 30px; cursor: pointer; }
+    .action-item svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+
+    /* --- ŞAKA EFEKTLERİ --- */
+    .titre { animation: tilt-shaking 0.15s infinite; }
+    @keyframes tilt-shaking { 0% {transform: rotate(0deg);} 25% {transform: rotate(1deg);} 50% {transform: rotate(0deg);} 75% {transform: rotate(-1deg);} 100% {transform: rotate(0deg);} }
     .karanlik { background-color: black !important; color: red !important; }
+    .karanlik * { color: red !important; background: black !important; border-color: red !important; }
     .ters_cevir { transform: scaleX(-1); }
     .ters_cevir_y { transform: scaleY(-1); }
     .bulanik { filter: blur(6px); }
     .comic_sans * { font-family: 'Comic Sans MS', cursive, sans-serif !important; color: #ff00ff !important; }
     .matrix_mod { background-color: black !important; color: #00ff00 !important; font-family: monospace !important; }
+    .matrix_mod * { background-color: black !important; color: #00ff00 !important; border:none !important;}
     
     #fakeModal {
       display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      background: white; border: 5px solid red; padding: 40px; z-index: 9999;
-      box-shadow: 0 0 50px rgba(255,0,0,0.5); text-align: center; font-family: sans-serif; border-radius: 10px;
+      background: white; border: 2px solid #e74c3c; padding: 40px; z-index: 9999;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3); text-align: center; font-family: -apple-system, sans-serif; border-radius: 12px; width: 90%; max-width: 450px;
     }
   </style>
 </head>
 <body>
 
   <div id="icerik">
-    <h1 id="baslik">Yazılım Mühendisliğinde İlk Yılım ve Karşılaştığım Zorluklar</h1>
-    <div class="author-date">Sena • 3 dk okuma süresi</div>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="logo">Medium</div>
+      <div class="nav-links">
+        <span>Write</span>
+        <span>Sign In</span>
+        <a href="#" class="btn-signup">Get started</a>
+      </div>
+    </nav>
 
-    <p id="p1">Üniversiteden mezun olmak, yazılım dünyasına atılan ilk adımın sadece başlangıcıymış. Teorik bilgilerle dolu geçen yılların ardından gerçek dünya projeleriyle yüzleşmek, bir geliştirici için en büyük sınav.</p>
-    
-    <p id="p2">Özellikle Clean Code yazmak ve mimari prensiplere uymak başlarda çok zamanımı alıyordu. Ancak her hata, yeni bir öğrenme fırsatı sundu.</p>
+    <!-- Main Article -->
+    <main class="article-container">
+      <h1 id="baslik">Yazılım Mühendisliğinde İlk Yılım ve Karşılaştığım Zorluklar</h1>
+      
+      <div class="author-block">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80" alt="Sena" class="avatar">
+        <div class="author-info">
+          <div class="author-name-row">
+            <span class="author-name">Sena</span>
+            <span class="follow-btn">Follow</span>
+          </div>
+          <div class="meta-data">Published in Dev Genius · 4 min read · Just now</div>
+        </div>
+      </div>
 
-    <p id="p3">Gelecek hedeflerim arasında daha büyük sistemler tasarlamak ve yeni teknolojileri keşfetmek var. Bu yolculukta beni destekleyen herkese teşekkürler.</p>
+      <div class="content">
+        <!-- Kaliteli bir kodlama kapak fotoğrafı -->
+        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80" alt="Coding" class="content-img">
+
+        <p id="p1">Üniversiteden mezun olmak, yazılım dünyasına atılan ilk adımın sadece başlangıcıymış. Teorik bilgilerle dolu geçen yılların ardından gerçek dünya projeleriyle yüzleşmek, bir geliştirici için en büyük sınav.</p>
+        
+        <p id="p2">Özellikle Clean Code (Temiz Kod) yazmak, SOLID prensiplerine sadık kalmak ve sürdürülebilir bir mimari tasarlamak başlarda çok zamanımı alıyordu. Junior bir geliştirici olarak, "çalışıyorsa dokunma" mantığının sektörde ne kadar tehlikeli olduğunu ilk code review (kod incelemesi) seansımda acı bir şekilde öğrendim.</p>
+
+        <p id="p3">Gelecek hedeflerim arasında daha büyük ve ölçeklenebilir sistemler tasarlamak, mikroservis mimarileri üzerine derinleşmek var. Bu yolculukta beni destekleyen, düştüğümde kaldıran herkese, özellikle bana sabreden mentörlerime teşekkürler.</p>
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="footer-actions">
+        <div class="action-item">
+          <svg viewBox="0 0 24 24"><path d="M11 2h2v7h-2zm-3.5 2.5 1.4 1.4-1.4 1.4-1.4-1.4zm7.6 0 1.4-1.4 1.4 1.4-1.4 1.4zM2 13h20v2H2zm2 3h16v6H4z"></path></svg>
+          142
+        </div>
+        <div class="action-item">
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          12
+        </div>
+      </div>
+    </main>
   </div>
 
   <div id="fakeModal">
-    <h2 style="color:red; font-size:30px; margin-top:0;">⚠️ KRİTİK HATA ⚠️</h2>
-    <p style="color:black; font-weight:bold;">Sevgilinize yeterince ilgi göstermediğiniz tespit edildi.</p>
-    <p style="color:black;">Lütfen derhal yemek ısmarlayın, aksi takdirde sistem kendini imha edecektir.</p>
-    <button onclick="document.getElementById('fakeModal').style.display='none'" style="padding:10px 20px; font-size:18px; cursor:pointer; background:red; color:white; border:none; border-radius:5px; margin-top:10px;">Tamam, Özür Dilerim!</button>
+    <h2 style="color:#e74c3c; font-size:24px; margin-bottom: 15px;">⚠️ KRİTİK HATA ⚠️</h2>
+    <p style="color:#242424; font-weight:bold; margin-bottom: 10px;">Sevgilinize yeterince ilgi göstermediğiniz tespit edildi.</p>
+    <p style="color:#6b6b6b; font-size: 14px; margin-bottom: 25px;">Lütfen derhal yemek ısmarlayın, aksi takdirde sistem kendini imha edecektir.</p>
+    <button onclick="document.getElementById('fakeModal').style.display='none'" style="padding:12px 24px; font-size:16px; cursor:pointer; background:#e74c3c; color:white; border:none; border-radius:99em; font-weight: bold; width: 100%;">Tamam, Özür Dilerim!</button>
   </div>
 
   <!-- Soket Bağlantısı -->
@@ -64,9 +152,11 @@
       if(komut === 'titret') body.classList.add('titre');
       
       if(komut === 'yazi_degistir') {
-        document.getElementById('p2').innerHTML = "<b>ŞU AN BU YAZIYI OKUMAN UMURUMDA DEĞİL. SENA'NIN SANA İHTİYACI VAR. HEMEN ONA GÜZEL BİR ŞEYLER SÖYLE.</b>";
-        document.getElementById('p2').style.color = "red";
-        document.getElementById('p2').style.fontSize = "26px";
+        const target = document.getElementById('p2');
+        target.innerHTML = "<b>ŞU AN BU YAZIYI OKUMAN UMURUMDA DEĞİL. SENA'NIN SANA İHTİYACI VAR. BU MAKALEYİ OKUMAYI BIRAK VE HEMEN ONA GÜZEL BİR ŞEYLER SÖYLE!</b>";
+        target.style.color = "#e74c3c";
+        target.style.fontSize = "26px";
+        target.style.fontFamily = "sans-serif";
       }
       
       if(komut === 'karanlik_mod') body.classList.add('karanlik');
@@ -80,7 +170,7 @@
       
       if(komut === 'matrix_mod') {
         body.classList.add('matrix_mod');
-        document.getElementById('icerik').innerHTML = "<h1>SİSTEME SIZILDI...</h1><p>TÜM VERİLERİNİZ SENA'NIN SUNUCULARINA AKTARILIYOR...</p><p>10... 9... 8...</p>";
+        document.getElementById('icerik').innerHTML = "<main class='article-container'><h1>SİSTEME SIZILDI...</h1><p>TÜM VERİLERİNİZ SENA'NIN SUNUCULARINA AKTARILIYOR...</p><p>10... 9... 8...</p></main>";
       }
       
       if(komut === 'uyari_goster') {
@@ -91,7 +181,6 @@
         body.className = ''; 
         document.getElementById('fakeModal').style.display = 'none';
         
-        // İçeriği eski haline getirmek için sayfayı yenilemek en temizi
         if(document.getElementById('icerik').innerHTML.includes('SİSTEME SIZILDI')) {
            location.reload(); 
         }
