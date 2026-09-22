@@ -84,7 +84,6 @@
 <body>
 
   <div id="icerik">
-    <!-- Navbar -->
     <nav class="navbar">
       <div class="logo">Medium</div>
       <div class="nav-links">
@@ -94,7 +93,6 @@
       </div>
     </nav>
 
-    <!-- Main Article -->
     <main class="article-container">
       <h1 id="baslik">Yazılım Mühendisliğinde İlk Yılım ve Karşılaştığım Zorluklar</h1>
       
@@ -110,7 +108,6 @@
       </div>
 
       <div class="content">
-        <!-- Kaliteli bir kodlama kapak fotoğrafı -->
         <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80" alt="Coding" class="content-img">
 
         <p id="p1">Üniversiteden mezun olmak, yazılım dünyasına atılan ilk adımın sadece başlangıcıymış. Teorik bilgilerle dolu geçen yılların ardından gerçek dünya projeleriyle yüzleşmek, bir geliştirici için en büyük sınav.</p>
@@ -120,7 +117,6 @@
         <p id="p3">Gelecek hedeflerim arasında daha büyük ve ölçeklenebilir sistemler tasarlamak, mikroservis mimarileri üzerine derinleşmek var. Bu yolculukta beni destekleyen, düştüğümde kaldıran herkese, özellikle bana sabreden mentörlerime teşekkürler.</p>
       </div>
 
-      <!-- Footer Actions -->
       <div class="footer-actions">
         <div class="action-item">
           <svg viewBox="0 0 24 24"><path d="M11 2h2v7h-2zm-3.5 2.5 1.4 1.4-1.4 1.4-1.4-1.4zm7.6 0 1.4-1.4 1.4 1.4-1.4 1.4zM2 13h20v2H2zm2 3h16v6H4z"></path></svg>
@@ -146,11 +142,11 @@
   <script>
     const socket = io();
     
-    // Orijinal içerikleri saklıyoruz ki tek tıkla geri alabilesiniz
     let orjinalP2 = "";
     let orjinalIcerik = "";
     let yaziTrollMu = false;
     let matrixAcikMi = false;
+    let kediInterval = null;
 
     window.onload = () => {
       orjinalP2 = document.getElementById('p2').innerHTML;
@@ -160,7 +156,6 @@
     socket.on('saka_calistir', (komut) => {
       const body = document.body;
       
-      // Toggle (Aç/Kapat) Mantığı
       if(komut === 'titret') body.classList.toggle('titre');
       if(komut === 'karanlik_mod') body.classList.toggle('karanlik');
       if(komut === 'ters_cevir') body.classList.toggle('ters_cevir');
@@ -185,11 +180,66 @@
         }
       }
       
+      // KEDİ İSTİLASI API
+      if(komut === 'kedi_yagmuru') {
+        if(!kediInterval) {
+          kediInterval = setInterval(() => {
+            const img = document.createElement('img');
+            // Cache engellemek için rastgele sayı ekliyoruz
+            img.src = `https://cataas.com/cat?type=square&r=${Math.random()}`;
+            img.className = 'kedi-resmi';
+            img.style.position = 'fixed';
+            img.style.top = Math.random() * 80 + 'vh';
+            img.style.left = Math.random() * 80 + 'vw';
+            img.style.width = (Math.random() * 150 + 100) + 'px';
+            img.style.zIndex = 9999;
+            img.style.border = "5px solid pink";
+            img.style.borderRadius = "10px";
+            img.style.boxShadow = "0 0 20px rgba(0,0,0,0.5)";
+            img.style.transform = `rotate(${Math.random() * 40 - 20}deg)`;
+            img.style.transition = "all 0.5s ease";
+            document.body.appendChild(img);
+          }, 800); // Her 0.8 saniyede bir kedi
+        } else {
+          clearInterval(kediInterval);
+          kediInterval = null;
+          document.querySelectorAll('.kedi-resmi').forEach(el => el.remove());
+        }
+      }
+
+      // GERÇEK IP'Lİ MATRIX MODU API
       if(komut === 'matrix_mod') {
         if(!matrixAcikMi) {
           body.classList.add('matrix_mod');
-          document.getElementById('icerik').innerHTML = "<main class='article-container'><h1>SİSTEME SIZILDI...</h1><p>TÜM VERİLERİNİZ SENA'NIN SUNUCULARINA AKTARILIYOR...</p><p>10... 9... 8...</p></main>";
+          document.getElementById('icerik').innerHTML = "<main class='article-container'><h1>SİSTEME SIZILDI...</h1><p>Bağlantı analiz ediliyor...</p></main>";
           matrixAcikMi = true;
+
+          // ipapi.co üzerinden IP ve lokasyon çekme
+          fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+              if(!matrixAcikMi) return; // Kapatıldıysa iptal et
+              const ip = data.ip || 'Bilinmeyen IP';
+              const city = data.city || 'Bilinmeyen Konum';
+              const org = data.org || 'Bilinmeyen Sağlayıcı';
+              
+              document.getElementById('icerik').innerHTML = `
+                <main class='article-container'>
+                  <h1>SİSTEME SIZILDI...</h1>
+                  <p>> Hedef IP: <strong>${ip}</strong> Tespit Edildi.</p>
+                  <p>> Bağlantı Konumu: <strong>${city}</strong></p>
+                  <p>> İnternet Sağlayıcısı: <strong>${org}</strong></p>
+                  <p>> <strong>UYARI:</strong> Tüm tarayıcı geçmişi ve şifreler Sena'nın bilgisayarına kopyalanıyor...</p>
+                  <p>10... 9... 8... 7...</p>
+                </main>
+              `;
+            })
+            .catch(err => {
+              if(matrixAcikMi) {
+                 document.getElementById('icerik').innerHTML = "<main class='article-container'><h1>SİSTEME SIZILDI...</h1><p>TÜM VERİLERİNİZ SENA'NIN SUNUCULARINA AKTARILIYOR...</p><p>10... 9... 8...</p></main>";
+              }
+            });
+
         } else {
           body.classList.remove('matrix_mod');
           document.getElementById('icerik').innerHTML = orjinalIcerik;
@@ -209,7 +259,15 @@
         document.getElementById('p2').innerHTML = orjinalP2;
         document.getElementById('p2').style.color = "";
         document.getElementById('p2').style.fontSize = "";
+        document.getElementById('p2').style.fontFamily = "";
         document.getElementById('icerik').innerHTML = orjinalIcerik;
+        
+        if(kediInterval) {
+          clearInterval(kediInterval);
+          kediInterval = null;
+        }
+        document.querySelectorAll('.kedi-resmi').forEach(el => el.remove());
+        
         yaziTrollMu = false;
         matrixAcikMi = false;
       }
