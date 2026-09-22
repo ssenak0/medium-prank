@@ -11,7 +11,7 @@
     .author-date { color: #6b6b6b; font-family: sans-serif; margin-bottom: 30px; font-size: 14px; }
     
     /* Şaka Efektleri */
-    .titre { animation: tilt-shaking 0.15s infinite; filter: blur(1px); }
+    .titre { animation: tilt-shaking 0.15s infinite; }
     @keyframes tilt-shaking {
       0% { transform: rotate(0deg); }
       25% { transform: rotate(2deg); }
@@ -19,42 +19,82 @@
       75% { transform: rotate(-2deg); }
       100% { transform: rotate(0deg); }
     }
-    .karanlik { background-color: black; color: red; }
+    .karanlik { background-color: black !important; color: red !important; }
+    .ters_cevir { transform: scaleX(-1); }
+    .ters_cevir_y { transform: scaleY(-1); }
+    .bulanik { filter: blur(6px); }
+    .comic_sans * { font-family: 'Comic Sans MS', cursive, sans-serif !important; color: #ff00ff !important; }
+    .matrix_mod { background-color: black !important; color: #00ff00 !important; font-family: monospace !important; }
+    
+    #fakeModal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: white; border: 5px solid red; padding: 40px; z-index: 9999;
+      box-shadow: 0 0 50px rgba(255,0,0,0.5); text-align: center; font-family: sans-serif; border-radius: 10px;
+    }
   </style>
 </head>
 <body>
 
-  <h1 id="baslik">Yazılım Mühendisliğinde İlk Yılım ve Karşılaştığım Zorluklar</h1>
-  <div class="author-date">Sena • 3 dk okuma süresi</div>
+  <div id="icerik">
+    <h1 id="baslik">Yazılım Mühendisliğinde İlk Yılım ve Karşılaştığım Zorluklar</h1>
+    <div class="author-date">Sena • 3 dk okuma süresi</div>
 
-  <p id="p1">Üniversiteden mezun olmak, yazılım dünyasına atılan ilk adımın sadece başlangıcıymış. Teorik bilgilerle dolu geçen yılların ardından gerçek dünya projeleriyle yüzleşmek, bir geliştirici için en büyük sınav.</p>
-  
-  <p id="p2">Özellikle Clean Code yazmak ve mimari prensiplere uymak başlarda çok zamanımı alıyordu. Ancak her hata, yeni bir öğrenme fırsatı sundu.</p>
+    <p id="p1">Üniversiteden mezun olmak, yazılım dünyasına atılan ilk adımın sadece başlangıcıymış. Teorik bilgilerle dolu geçen yılların ardından gerçek dünya projeleriyle yüzleşmek, bir geliştirici için en büyük sınav.</p>
+    
+    <p id="p2">Özellikle Clean Code yazmak ve mimari prensiplere uymak başlarda çok zamanımı alıyordu. Ancak her hata, yeni bir öğrenme fırsatı sundu.</p>
 
-  <p id="p3">Gelecek hedeflerim arasında daha büyük sistemler tasarlamak ve yeni teknolojileri keşfetmek var. Bu yolculukta beni destekleyen herkese teşekkürler.</p>
+    <p id="p3">Gelecek hedeflerim arasında daha büyük sistemler tasarlamak ve yeni teknolojileri keşfetmek var. Bu yolculukta beni destekleyen herkese teşekkürler.</p>
+  </div>
+
+  <div id="fakeModal">
+    <h2 style="color:red; font-size:30px; margin-top:0;">⚠️ KRİTİK HATA ⚠️</h2>
+    <p style="color:black; font-weight:bold;">Sevgilinize yeterince ilgi göstermediğiniz tespit edildi.</p>
+    <p style="color:black;">Lütfen derhal yemek ısmarlayın, aksi takdirde sistem kendini imha edecektir.</p>
+    <button onclick="document.getElementById('fakeModal').style.display='none'" style="padding:10px 20px; font-size:18px; cursor:pointer; background:red; color:white; border:none; border-radius:5px; margin-top:10px;">Tamam, Özür Dilerim!</button>
+  </div>
 
   <!-- Soket Bağlantısı -->
   <script src="/socket.io/socket.io.js"></script>
   <script>
     const socket = io();
 
-    // Sunucudan gelen şaka komutlarını dinle
     socket.on('saka_calistir', (komut) => {
+      const body = document.body;
       
-      if(komut === 'titret') {
-        document.body.classList.add('titre');
-      } 
-      else if(komut === 'titret_durdur') {
-        document.body.classList.remove('titre');
-      }
-      else if(komut === 'yazi_degistir') {
-        document.getElementById('p2').innerHTML = "<b>ASLINDA YAZILIM UMURUMDA DEĞİL. ŞU AN TEK İSTEDİĞİM ERKEK ARKADAŞIMIN BANA GÜZEL BİR KAHVE ISMARLAMASI VE BU YAZIYI OKUMAYI BIRAKMASI.</b>";
+      if(komut === 'titret') body.classList.add('titre');
+      
+      if(komut === 'yazi_degistir') {
+        document.getElementById('p2').innerHTML = "<b>ŞU AN BU YAZIYI OKUMAN UMURUMDA DEĞİL. SENA'NIN SANA İHTİYACI VAR. HEMEN ONA GÜZEL BİR ŞEYLER SÖYLE.</b>";
         document.getElementById('p2').style.color = "red";
         document.getElementById('p2').style.fontSize = "26px";
       }
-      else if(komut === 'karanlik_mod') {
-        document.body.classList.add('karanlik');
-        document.getElementById('baslik').innerText = "SENİ İZLİYORUM...";
+      
+      if(komut === 'karanlik_mod') body.classList.add('karanlik');
+      
+      if(komut === 'ters_cevir') body.classList.add('ters_cevir');
+      if(komut === 'ters_duz_yap') body.classList.add('ters_cevir_y');
+      
+      if(komut === 'bulanik') body.classList.add('bulanik');
+      
+      if(komut === 'comic_sans') body.classList.add('comic_sans');
+      
+      if(komut === 'matrix_mod') {
+        body.classList.add('matrix_mod');
+        document.getElementById('icerik').innerHTML = "<h1>SİSTEME SIZILDI...</h1><p>TÜM VERİLERİNİZ SENA'NIN SUNUCULARINA AKTARILIYOR...</p><p>10... 9... 8...</p>";
+      }
+      
+      if(komut === 'uyari_goster') {
+        document.getElementById('fakeModal').style.display = 'block';
+      }
+      
+      if(komut === 'her_seyi_duzelt') {
+        body.className = ''; 
+        document.getElementById('fakeModal').style.display = 'none';
+        
+        // İçeriği eski haline getirmek için sayfayı yenilemek en temizi
+        if(document.getElementById('icerik').innerHTML.includes('SİSTEME SIZILDI')) {
+           location.reload(); 
+        }
       }
     });
   </script>

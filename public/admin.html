@@ -4,17 +4,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GİZLİ KONTROL PANELİ</title>
   <style>
-    body { font-family: sans-serif; text-align: center; margin-top: 50px; background: #333; color: white; }
-    button { display: block; width: 80%; padding: 20px; margin: 15px auto; font-size: 20px; cursor: pointer; background: #ff4757; color: white; border: none; border-radius: 10px;}
-    button:active { background: #ff6b81; }
+    body { font-family: sans-serif; text-align: center; background: #222; color: white; padding-bottom: 50px; }
+    h1 { color: #ff4757; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; max-width: 600px; margin: 0 auto; }
+    button { padding: 15px 5px; font-size: 16px; font-weight: bold; cursor: pointer; background: #34495e; color: white; border: 2px solid #2c3e50; border-radius: 8px; transition: 0.2s;}
+    button:active { transform: scale(0.95); background: #e74c3c; }
+    .kirmizi { background: #e74c3c; }
+    .yesil { background: #2ecc71; grid-column: span 2; padding: 20px;}
+    .baslik-kategori { grid-column: span 2; margin-top: 20px; font-size: 18px; color: #f1c40f; border-bottom: 1px solid #555; padding-bottom: 5px;}
   </style>
 </head>
 <body>
   <h1>Şaka Kontrol Merkezi 😈</h1>
-  <button onclick="komutGonder('titret')">1. Sayfayı Titret</button>
-  <button onclick="komutGonder('titret_durdur')">Titremeyi Durdur</button>
-  <button onclick="komutGonder('yazi_degistir')">2. Metni Değiştir (Troll)</button>
-  <button onclick="komutGonder('karanlik_mod')">3. Siyah Ekran / Korkut</button>
+  
+  <div class="grid">
+    <div class="baslik-kategori">1. İçerik Değiştirme</div>
+    <button onclick="komutGonder('yazi_degistir')">Metni Troll'e Çevir</button>
+    <button onclick="komutGonder('matrix_mod')">Matrix Hack Modu</button>
+    
+    <div class="baslik-kategori">2. Görme İşkencesi (Troll)</div>
+    <button onclick="komutGonder('titret')">Sayfayı Titret</button>
+    <button onclick="komutGonder('bulanik')">Bulanıklaştır (Körlük)</button>
+    <button onclick="komutGonder('ters_cevir')">Ayna Modu (Yatay)</button>
+    <button onclick="komutGonder('ters_duz_yap')">Tepe Taklak Yap</button>
+    
+    <div class="baslik-kategori">3. Renk ve Font İşkencesi</div>
+    <button onclick="komutGonder('comic_sans')">Pembe Comic Sans</button>
+    <button onclick="komutGonder('karanlik_mod')">Karanlık Tema Yap</button>
+
+    <div class="baslik-kategori">4. Büyük Vuruş</div>
+    <button onclick="komutGonder('uyari_goster')" class="kirmizi" style="grid-column: span 2;">Kritik Hata Pop-up'ı Fırlat!</button>
+
+    <div class="baslik-kategori">Kurtarma (Acil Durum)</div>
+    <button onclick="komutGonder('her_seyi_duzelt')" class="yesil">Panik Butonu (Normale Dön)</button>
+  </div>
 
   <script src="/socket.io/socket.io.js"></script>
   <script>
