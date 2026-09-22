@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yazılım Mühendisliğinde İlk Yılım - Medium</title>
+  <style>
+    body { font-family: 'Georgia', serif; max-width: 700px; margin: 0 auto; padding: 20px; color: #242424; transition: all 0.5s ease; }
+    h1 { font-family: 'Helvetica Neue', sans-serif; font-size: 36px; margin-bottom: 10px; }
+    p { font-size: 20px; line-height: 1.5; margin-bottom: 25px; }
+    .author-date { color: #6b6b6b; font-family: sans-serif; margin-bottom: 30px; font-size: 14px; }
+    
+    /* Şaka Efektleri */
+    .titre { animation: tilt-shaking 0.15s infinite; filter: blur(1px); }
+    @keyframes tilt-shaking {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(2deg); }
+      50% { transform: rotate(0deg); }
+      75% { transform: rotate(-2deg); }
+      100% { transform: rotate(0deg); }
+    }
+    .karanlik { background-color: black; color: red; }
+  </style>
+</head>
+<body>
+
+  <h1 id="baslik">Yazılım Mühendisliğinde İlk Yılım ve Karşılaştığım Zorluklar</h1>
+  <div class="author-date">Sena • 3 dk okuma süresi</div>
+
+  <p id="p1">Üniversiteden mezun olmak, yazılım dünyasına atılan ilk adımın sadece başlangıcıymış. Teorik bilgilerle dolu geçen yılların ardından gerçek dünya projeleriyle yüzleşmek, bir geliştirici için en büyük sınav.</p>
+  
+  <p id="p2">Özellikle Clean Code yazmak ve mimari prensiplere uymak başlarda çok zamanımı alıyordu. Ancak her hata, yeni bir öğrenme fırsatı sundu.</p>
+
+  <p id="p3">Gelecek hedeflerim arasında daha büyük sistemler tasarlamak ve yeni teknolojileri keşfetmek var. Bu yolculukta beni destekleyen herkese teşekkürler.</p>
+
+  <!-- Soket Bağlantısı -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    // Sunucudan gelen şaka komutlarını dinle
+    socket.on('saka_calistir', (komut) => {
+      
+      if(komut === 'titret') {
+        document.body.classList.add('titre');
+      } 
+      else if(komut === 'titret_durdur') {
+        document.body.classList.remove('titre');
+      }
+      else if(komut === 'yazi_degistir') {
+        document.getElementById('p2').innerHTML = "<b>ASLINDA YAZILIM UMURUMDA DEĞİL. ŞU AN TEK İSTEDİĞİM ERKEK ARKADAŞIMIN BANA GÜZEL BİR KAHVE ISMARLAMASI VE BU YAZIYI OKUMAYI BIRAKMASI.</b>";
+        document.getElementById('p2').style.color = "red";
+        document.getElementById('p2').style.fontSize = "26px";
+      }
+      else if(komut === 'karanlik_mod') {
+        document.body.classList.add('karanlik');
+        document.getElementById('baslik').innerText = "SENİ İZLİYORUM...";
+      }
+    });
+  </script>
+</body>
+</html>
